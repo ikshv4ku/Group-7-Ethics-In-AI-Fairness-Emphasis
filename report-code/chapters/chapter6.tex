@@ -1,0 +1,233 @@
+% ============================================================
+\chapter{Conclusion, Future Work, and Industry Approaches}
+% ============================================================
+\label{ch:conclusion}
+
+
+\vspace{0.5em}
+\noindent\rule{\textwidth}{0.4pt}
+\noindent\textbf{Declaration of Contributions:}
+This chapter was compiled and authored by \textit{Vishesh Gupta}, who
+interpreted the fairness metrics, analysed experimental results, and connected
+the technical findings with real-world AI systems deployed by industry leaders.
+\textit{Nitin Agiwal} contributed the concluding synthesis of bias and fairness
+across the machine-learning pipeline. All team members cross-checked factual claims and references for accuracy.
+\noindent\rule{\textwidth}{0.4pt}
+\vspace{1em}
+
+\bigskip
+
+This chapter consolidates the key findings of the report, outlines directions
+for future investigation, and situates the research within the broader landscape
+of how major AI organisations currently address algorithmic fairness.
+We begin with a synthesis of our conclusions, followed by concrete open
+problems, and close with a comparative survey of fairness approaches adopted by
+OpenAI, Google, and IBM.
+
+% ============================================================
+\section{Conclusion}
+% ============================================================
+
+Bias in AI is a systemic problem deeply embedded across the entire
+machine-learning pipeline, from data collection and model training through to
+evaluation.
+It arises due to historical inequalities reflected in data, underrepresentation
+of certain demographic groups, and human subjectivity in labelling and feature
+selection~\cite{propublica_compas}.
+Real-world case studies such as the COMPAS recidivism algorithm and Amazon's
+hiring system demonstrate that such biases can directly harm marginalised
+communities and perpetuate existing social inequalities at scale.
+
+Traditional evaluation metrics such as accuracy are insufficient for assessing
+fairness: models can achieve high overall performance while producing
+disproportionately harmful outcomes for specific demographic groups.
+This work examined the FD-VAE architecture~\cite{park2020readme} as a
+principled approach to fair representation learning.
+FD-VAE addresses the fundamental flaw in prior methods, most notably
+FFVAE, by introducing a three-way disentanglement of the latent space into
+\emph{target} ($z_t$), \emph{protected} ($z_p$), and \emph{mutual} ($z_m$)
+attribute components, ensuring that the shared predictive information is
+exploited without leaking demographic signals into downstream classifiers.
+
+The incorporation of Conditional Value-at-Risk (CVaR) loss~\cite{ju2024fairness}
+further strengthens robustness by focusing training on worst-performing
+subgroups rather than on average-case behaviour, encouraging fairness even in
+the absence of explicit group labels.
+The proposed pipeline extends these ideas to deepfake detection by combining
+Fractional Fourier Transform (FrFT) preprocessing~\cite{ozaktas2001frft},
+latent consistency enforcement, adversarial debiasing, and CVaR fairness loss.
+Together, these components aim to build a detection system that is not only
+accurate but equitable across demographic groups.
+
+The ultimate goal is to develop AI systems that are \textbf{trustworthy},
+\textbf{socially responsible}, and \textbf{fair by design} rather than as an
+afterthought.
+
+% ============================================================
+\section{Future Work}
+% ============================================================
+
+Several directions remain open for further investigation.
+
+\paragraph{Empirical Validation.}
+The proposed FrFT-based pipeline has been designed at an architectural level;
+empirical validation on standard benchmarks such as CelebA and UTK Face
+datasets is needed to quantitatively confirm its fairness--accuracy trade-offs
+against existing baselines including FFVAE and FD-VAE~\cite{park2020readme}.
+
+\paragraph{Multi-Attribute Fairness.}
+The current approach assumes binary protected attributes such as gender.
+Extending the framework to handle multiple intersecting sensitive attributes
+simultaneously, race, age, and gender combined, presents a non-trivial
+challenge that warrants dedicated study.
+Intersectional fairness metrics that jointly penalise subgroup disparities
+would be a natural first step.
+
+\paragraph{CVaR Hyperparameter Scheduling.}
+The CVaR parameter $\alpha$ critically governs the fairness--accuracy
+trade-off~\cite{ju2024fairness}.
+A systematic sensitivity analysis and an adaptive scheduling strategy for
+$\alpha$ during training could improve generalisation across datasets with
+varying demographic distributions.
+
+\paragraph{Training Stability of Adversarial Objectives.}
+While adversarial debiasing is effective, it introduces the training
+instability common to minimax objectives.
+Exploring alternative decorrelation strategies, such as kernel-based
+independence tests or information-theoretic regularisation, may yield more
+stable and scalable training dynamics.
+
+\paragraph{Broader Application Domains.}
+The applicability of this pipeline to high-stakes domains beyond deepfake
+detection, including medical imaging, credit scoring, and hiring
+systems, represents a promising and socially impactful direction.
+Each domain introduces unique distributional challenges (e.g.\ class imbalance
+in medical data, legally protected attributes in credit scoring) that would
+require careful adaptation of the proposed fairness constraints.
+
+% ============================================================
+\section{How AI Industry Leaders Address Fairness}
+% ============================================================
+
+Beyond academic research, major technology companies have developed their own
+fairness frameworks and tools.
+These approaches span training-time interventions, post-processing audits, and
+open-source toolkits.
+Three leading efforts are examined below.
+
+% , , , , , , , , , , , , , , , , , , , , 
+\subsection{OpenAI ,  Reinforcement Learning with Human Feedback (RLHF)}
+% , , , , , , , , , , , , , , , , , , , , 
+
+OpenAI employs Reinforcement Learning with Human Feedback
+(RLHF)~\cite{ouyang2022rlhf} to align model behaviour with human values,
+including fairness.
+The key techniques include:
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{Human reviewers} who guide the model toward safe, unbiased
+          responses through preference-based feedback.
+    \item \textbf{Bias evaluation benchmarks} that test model outputs across
+          demographic groups before deployment.
+    \item \textbf{Content moderation layers} that filter outputs in real time
+          to prevent discriminatory or toxic content.
+\end{itemize}
+
+The primary goal of RLHF in this context is to ensure that language models
+avoid generating discriminatory responses or perpetuating harmful stereotypes.
+Human oversight is central to this approach, making it effective but also
+resource-intensive and dependent on the diversity of human reviewers.
+
+% , , , , , , , , , , , , , , , , , , , , 
+\subsection{Google ,  Responsible AI Policies}
+% , , , , , , , , , , , , , , , , , , , , 
+
+Google has embedded fairness considerations into its model development
+lifecycle through its Responsible AI framework, applied prominently in the
+Gemini family of models~\cite{gemini2023}.
+The key techniques are:
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{Safety tuning during training}, where dataset composition and
+          sampling strategies are adjusted to reduce demographic disparities
+          before training begins.
+    \item \textbf{Dataset filtering} to remove or rebalance data that may
+          encode historical inequalities.
+    \item \textbf{Fairness checks} that explicitly test for gender-, race-, and
+          culture-based disparities in model outputs.
+\end{itemize}
+
+Google's approach addresses bias at the source, during data preparation and
+model training, and is generally more effective than post-hoc correction.
+However, ensuring comprehensive coverage across all demographic dimensions
+remains an ongoing challenge.
+
+% , , , , , , , , , , , , , , , , , , , , 
+\subsection{IBM ,  AI Fairness 360 (AIF360)}
+% , , , , , , , , , , , , , , , , , , , , 
+
+IBM has released AI Fairness 360 (AIF360)~\cite{aif360}, an open-source Python
+toolkit designed to help practitioners detect and mitigate bias across the full
+machine-learning pipeline.
+The toolkit provides:
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{Bias detection algorithms} that quantify disparate impact,
+          statistical parity, and other fairness metrics.
+    \item \textbf{Bias mitigation algorithms} categorised by intervention stage:
+    \begin{itemize}[leftmargin=1.5em]
+        \item \textit{Pre-processing:} Reweighting and disparate impact remover
+              applied to training data to reduce bias at its source, ensuring
+              that the model learns from a more balanced representation of the
+              data.
+        \item \textit{In-processing:} Adversarial debiasing and prejudice
+              remover applied during model training, actively guiding the
+              learning algorithm to reduce bias while it is being trained.
+        \item \textit{Post-processing:} Calibrated equalized odds and reject
+              option classification applied to model outputs, adjusting final
+              predictions to ensure more equitable outcomes across different
+              groups.
+    \end{itemize}
+\end{itemize}
+
+AIF360's open-source nature makes it widely accessible and adaptable across
+industries.
+It supports a wide range of fairness metrics and can be integrated into
+existing machine-learning workflows with minimal overhead.
+
+% , , , , , , , , , , , , , , , , , , , , 
+\subsection{Comparative Summary}
+% , , , , , , , , , , , , , , , , , , , , 
+
+Table~\ref{tab:industry_comparison} summarises the three approaches along the
+dimensions of primary strategy, key techniques, and the types of harm each is
+designed to avoid.
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.35}
+\begin{tabularx}{\textwidth}{lXXX}
+\toprule
+\textbf{Company} & \textbf{Approach} & \textbf{Techniques} & \textbf{What It Avoids} \\
+\midrule
+\textbf{OpenAI} \newline (ChatGPT / GPT-4) &
+    RLHF (Reinforcement Learning with Human Feedback)~\cite{ouyang2022rlhf} &
+    Human reviewers guide safe responses; bias evaluation benchmarks; content
+    moderation layers &
+    Toxic outputs; discriminatory responses \\
+\addlinespace
+\textbf{Google} \newline (Gemini) &
+    Responsible AI Policies~\cite{gemini2023} &
+    Safety tuning during training; dataset filtering &
+    Gender-, race-, and culture-based disparities (via fairness checks) \\
+\addlinespace
+\textbf{IBM} \newline (AIF360) &
+    Open-source Fairness Toolkit~\cite{aif360} &
+    Bias detection; bias mitigation algorithms at pre-, in-, and
+    post-processing stages &
+    Algorithmic bias across protected groups \\
+\bottomrule
+\end{tabularx}
+\caption{Comparison of industry approaches to AI fairness.}
+\label{tab:industry_comparison}
+\end{table}

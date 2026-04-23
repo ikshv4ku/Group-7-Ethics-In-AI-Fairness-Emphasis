@@ -1,0 +1,421 @@
+% ============================================================
+%  IIT ROORKEE THESIS TEMPLATE
+%  Reproduced from the Ph.D. thesis format (LaTeX with hyperref)
+%  Fill in the fields marked with TODO to customise.
+% ============================================================
+\documentclass[a4paper,12pt,twoside]{report}
+
+% ── Core packages ─────────────────────────────────────────
+\usepackage[a4paper,
+            top=1in, bottom=1in,
+            left=1.25in, right=1in]{geometry}
+
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{graphicx}
+\usepackage{setspace}          % line spacing
+\usepackage{fancyhdr}          % headers / footers
+\usepackage{emptypage}         % suppress headers on truly blank pages
+\usepackage{titlesec}          % custom chapter/section titles
+\usepackage{tocloft}           % TOC / LOF / LOT styling
+\usepackage{nomencl}           % List of Abbreviations
+\usepackage{booktabs}          % professional tables
+\usepackage{hyperref}          % clickable cross-references (keep last)
+\usepackage{xcolor}            % colours (used in tables for best/2nd-best)
+\usepackage{caption}           % figure/table captions
+\usepackage{subcaption}        % sub-figures
+\usepackage{indentfirst}       % indent first paragraph of every section
+\usepackage{microtype}         % better justification
+\usepackage{enumitem}         % control over itemize/enumerate spacing
+\usepackage{float}            % improved float control (e.g., [H] option)
+\usepackage{longtable}        % tables that span multiple pages
+\usepackage{multirow}         % multi-row cells in tables
+\usepackage{multicol}         % multi-column layout (e.g., for CVs  or lists)
+\usepackage{tabularx}         % tables with adjustable-width columns
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{graphicx}
+\usepackage{placeins}
+
+\usetikzlibrary{positioning,arrows.meta}
+\pgfplotsset{compat=1.18}
+
+\setlength{\textfloatsep}{6pt}
+\setlength{\floatsep}{6pt}
+\setlength{\intextsep}{6pt}
+\setlength{\abovecaptionskip}{4pt}
+\setlength{\belowcaptionskip}{0pt}
+
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usetikzlibrary{positioning,arrows.meta,shapes.geometric,fit,backgrounds,calc}
+\pgfplotsset{compat=1.18}
+\geometry{margin=2.5cm}
+
+% Fix fancyhdr headheight warning
+\setlength{\headheight}{15pt}
+
+% ── Watermark (IIT Roorkee gear logo on every page) ───────
+\usepackage{background}
+\backgroundsetup{
+  scale   = 1,
+  angle   = 0,
+  opacity = 0.07,                      % very faint, like the original
+  contents= {\includegraphics[width=14cm]{images/iitr_logo.png}},
+  % position = current page.center     % centred on the page (default)
+}
+
+% ── Hyperref setup ─────────────────────────────────────────
+\hypersetup{
+  colorlinks = true,
+  linkcolor  = black,
+  citecolor  = black,
+  urlcolor   = black,
+  pdftitle   = {Ethics in AI: Emphasis on Fairness},         
+  pdfauthor  = {Group 7},         
+}
+
+% ── Line spacing ───────────────────────────────────────────
+\onehalfspacing          % matches the original (~1.5×)
+
+% ============================================================
+%  HEADERS / FOOTERS  (fancyhdr) — PROFESSIONAL STYLE
+% ============================================================
+\pagestyle{fancy}
+
+% Clear all header and footer fields
+\fancyhf{}
+
+% Ensure chapter & section marks are properly defined
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+
+% , , , , , , , , , , -
+% Header Layout (Two-sided style)
+% , , , , , , , , , , -
+% Even pages (Left side): Chapter name
+\fancyhead[LE]{\slshape\leftmark}
+
+% Odd pages (Right side): Section name
+\fancyhead[RO]{\slshape\rightmark}
+
+% Optional: remove other sides completely
+\fancyhead[LO]{}
+\fancyhead[RE]{}
+
+% Header rule
+\renewcommand{\headrulewidth}{0.4pt}
+
+% , , , , , , , , , , -
+% Footer Layout
+% , , , , , , , , , , -
+% Page number in center
+\fancyfoot[C]{\thepage}
+
+% No footer rule
+\renewcommand{\footrulewidth}{0pt}
+
+% ============================================================
+%  Plain Style (Chapter opening pages)
+% ============================================================
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \fancyfoot[C]{\thepage}
+  \renewcommand{\headrulewidth}{0pt}
+}
+
+% ============================================================
+%  Front Matter Fix (Abstract, Acknowledgements, etc.)
+% ============================================================
+% Ensure chapter titles appear in header even for \chapter*
+\makeatletter
+\renewcommand{\chaptermark}[1]{%
+  \markboth{#1}{}%
+}
+\makeatother
+
+% ============================================================
+%  TOC / LOF / LOT  FORMATTING
+% ============================================================
+\setlength{\cftbeforechapskip}{8pt}
+\renewcommand{\cftchapfont}{\bfseries}
+\renewcommand{\cftchappagefont}{\bfseries}
+
+% ============================================================
+%  NOMENCLATURE (List of Abbreviations)
+% ============================================================
+\makenomenclature
+% Usage in text: \nomenclature{CNN}{Convolutional Neural Network}
+% Compile with: makeindex main.nlo -s nomencl.ist -o main.nls
+
+% ============================================================
+%  DOCUMENT METADATA  — fill in these fields
+% ============================================================
+\newcommand{\ThesisTitle}{Ethics in AI: Emphasis on Fairness}   
+\newcommand{\DegreeType}{CSC-391 Technical Communication Report}
+\newcommand{\TeamMembers}{
+\begin{tabular}{l l}
+Aryan Choudhary             & 23115024 \\
+Nitin Agiwal                & 23114074 \\
+Pradyuman Singh Shekhawat   & 23115107 \\
+Siddharth Gupta             & 23114093 \\
+Vishesh Gupta               & 23114107 \\
+\end{tabular}
+}                      
+\newcommand{\Department}{Department of Computer Science and Engineering}  
+\newcommand{\Institute}{Indian Institute of Technology Roorkee}
+\newcommand{\Address}{Roorkee -- 247\,667 (India)}
+\newcommand{\SubmissionMonth}{April, 2026}
+                    
+
+% ============================================================
+\begin{document}
+
+% ── Roman numerals for front matter ────────────────────────
+\pagenumbering{roman}
+
+% ============================================================
+%  COVER PAGE 1  (title + Ph.D. THESIS + logo)
+% ============================================================
+\begin{titlepage}
+  \centering
+  \vspace*{0.5cm}
+
+  {\bfseries\Large\MakeUppercase{\ThesisTitle}\par}
+
+  \vspace{2.5cm}
+  {\DegreeType\par}
+
+  \vspace{0.8cm}
+  {\itshape by\par}
+
+  \vspace{2cm}
+  {\bfseries\large GROUP 7\par}
+
+  \vspace{0.8cm}
+  \TeamMembers
+
+  \vfill
+
+  {\MakeUppercase{\Department}\par
+   \MakeUppercase{\Institute}\par
+   \MakeUppercase{\Address}\par
+   \MakeUppercase{\SubmissionMonth}\par}
+\end{titlepage}
+
+% ============================================================
+%  Contribution Statement
+% ============================================================
+\cleardoublepage
+\chapter*{Contribution Statement}
+\label{ch:contribution_statement}
+
+\begin{table}[h]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{p{3cm} p{11cm}}
+\hline
+\textbf{Name} & \textbf{Contribution} \\
+  \hline
+  Nitin Agiwal &
+  Studied and analyzed the problem of bias and fairness in AI systems. Reviewed foundational concepts including representation learning, Variational Autoencoders (VAEs), and adversarial learning, and contributed to framing the core problem statement. \\
+
+  Pradyuman Singh Shekhawat &
+  Conducted the literature review with a focus on the FD-VAE architecture. Explained the fairness mechanisms underlying three-way latent disentanglement and the role of the decorrelation module in the representation learning stage. \\
+
+  Siddharth Gupta &
+  Contributed to the literature review and helped design the proposed fairness-aware pipeline, with special focus on integrating Fractional Fourier Transform preprocessing and adversarial debiasing into the overall architecture. \\
+
+  Aryan Choudhary &
+  Contributed to the literature review and collaborated on the design of the proposed pipeline, with particular focus on the CVaR fairness loss formulation and its two variants: demographic-agnostic (DAG) and demographic-aware (DAW). \\
+
+  Vishesh Gupta &
+  Interpreted the fairness evaluation metrics including Equal Opportunity, Equalized Odds, and Equalized Accuracy. Analyzed the experimental results on the CelebA and UTK Face datasets and connected the technical findings to real-world AI systems and societal implications. \\
+  \hline
+\end{tabular}
+\caption{Individual contributions of team members}
+\label{tab:contributions}
+\end{table}
+
+% ============================================================
+%  ACKNOWLEDGEMENTS
+% ============================================================
+\cleardoublepage
+\chapter*{Acknowledgements}
+\addcontentsline{toc}{chapter}{Acknowledgements}
+\label{ch:acknowledgements}
+
+This report was prepared as part of the course \textit{CSC-391: Technical Communication} at the Indian Institute of Technology Roorkee. We express our sincere gratitude to the course instructors, Prof. Raghvendra Singh Rohit and Prof. Chetan Gupta, for designing an assignment that encouraged not only technical rigor but also critical synthesis across diverse research directions. Their guidance played a crucial role in shaping both the structure and depth of this work.
+
+We also extend our appreciation to the Department of Computer Science and Engineering and the Institute administration, including the Director of the Indian Institute of Technology Roorkee, for fostering an academic environment that supports interdisciplinary exploration and responsible engagement with emerging technologies such as artificial intelligence.
+
+The theoretical foundation of this report is built upon prior research contributions. In particular, the FD-VAE framework proposed by Park, Kim, Hwang, and Byun (2020) provided the core representational perspective, while the work of Ju, Hu, Jia, Chen, and Lyu (2024) informed the integration of Conditional Value-at-Risk (CVaR) optimization and fairness-centric evaluation strategies in deepfake detection. We acknowledge these authors, as well as the broader research and open-source community, whose publicly available datasets—CelebA, Celeb-DF, DFD, and DFDC—and tools such as IBM’s AI Fairness 360 enabled meaningful empirical analysis.
+
+The five members of Group~7 contributed complementary strengths to this project, including mathematical analysis, literature synthesis, system design, and contextual interpretation of results. The collaborative process, characterized by continuous feedback and critical discussion, significantly enhanced the quality and coherence of the final report.
+
+\bigskip
+
+\noindent\textbf{Disclaimer:} This report is an academic exercise prepared for the CSC-391 course and does not represent original research. The content is based on a synthesis of existing literature and publicly available resources, and any errors or misinterpretations are solely the responsibility of the authors.
+% ============================================================
+%  ABSTRACT
+% ============================================================
+\cleardoublepage
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+\label{ch:abstract}
+
+The past decade has witnessed an unprecedented expansion of artificial
+intelligence from narrowly scoped research prototypes into production
+systems that inform, and in many cases determine, outcomes in domains
+as consequential as medical diagnosis, credit allocation, recruitment,
+and criminal sentencing.  This growth has brought with it a class of
+problems that purely technical performance metrics are ill-equipped to
+capture: the risk that AI systems reproduce, amplify, or systematically
+worsen pre-existing social inequities.  Among the many dimensions of AI
+ethics that have emerged in response, transparency, accountability,
+privacy, and safety, \emph{fairness} occupies a particularly central
+position, both because its violation is directly measurable and because
+its consequences fall disproportionately on already-marginalised
+populations.
+
+This report investigates fairness in AI with a sustained focus on the
+problem of demographic bias in machine-learning pipelines.  Bias in
+learned systems is not typically the product of deliberate design
+choices; it enters at multiple stages of the development pipeline,
+including the collection of training data that reflects historical
+inequalities, the underrepresentation of minority groups in benchmark
+datasets, and the subjective choices made during feature engineering
+and label annotation.  Once embedded in a model's parameters, such
+bias is difficult to detect through accuracy-based evaluation alone,
+because aggregate performance statistics mask disparate error rates
+across demographic subgroups.
+
+To address these shortcomings, the report surveys and synthesises a
+family of fairness-aware machine-learning methods centred on
+\emph{representation learning}, the paradigm of learning compact,
+structured feature encodings from raw data.  In particular, attention
+is directed toward \emph{disentangled} representation learning, which
+seeks to decompose a learned latent space into independent factors
+corresponding to distinct attributes of the data.  By explicitly
+separating protected demographic information from task-relevant
+predictive information at the level of the latent representation,
+downstream classifiers can be shielded from sensitive attributes
+without sacrificing predictive utility.
+
+The report examines the theoretical foundations of this approach,
+including Variational Autoencoders (VAEs) and their fairness-aware
+extension, the FD-VAE (Fairness-aware Disentangling VAE), which
+introduces a three-way partition of the latent space into
+target-attribute, protected-attribute, and mutual-attribute subspaces.
+It further surveys adversarial debiasing strategies, wherein a
+gradient reversal layer forces the encoder to produce representations
+from which a demographic classifier cannot reliably recover group
+membership.  Complementing these representational approaches,
+\emph{Conditional Value-at-Risk} (CVaR) is examined as a
+distributionally robust training objective that focuses optimisation
+on worst-performing demographic subgroups, thereby improving
+cross-group consistency even in the absence of explicit demographic
+labels.
+
+The report also presents a task-specific pipeline combining Fractional
+Fourier Transform (FrFT) pre-processing, adversarial autoencoding,
+latent consistency regularisation, and a CVaR-based fairness loss,
+designed with deepfake detection as the target application.  This
+pipeline is evaluated using a comprehensive suite of fairness metrics,
+including Equal Opportunity, Equalized Odds, Equalized Accuracy, and
+FPR-based disparity measures, which together provide a multi-faceted
+view of demographic parity.
+
+The overarching aim of this work is to demonstrate that accuracy and
+fairness are not fundamentally in tension, and that fairness-aware
+representation learning offers a principled path toward AI systems
+that are simultaneously reliable, equitable, and socially responsible.
+
+\bigskip
+
+\noindent\textbf{Keywords:} fairness in AI, bias mitigation, representation learning, adversarial debiasing
+% ============================================================
+%  TABLE OF CONTENTS
+% ============================================================
+\cleardoublepage
+\tableofcontents
+
+% ============================================================
+%  LIST OF FIGURES
+% ============================================================
+\cleardoublepage
+\listoffigures
+\addcontentsline{toc}{chapter}{List of Figures}
+
+% ============================================================
+%  LIST OF TABLES
+% ============================================================
+\cleardoublepage
+\listoftables
+\addcontentsline{toc}{chapter}{List of Tables}
+
+% ============================================================
+%  LIST OF ABBREVIATIONS
+% ============================================================
+\cleardoublepage
+\renewcommand{\nomname}{List of Abbreviations}
+\printnomenclature[3cm]
+\addcontentsline{toc}{chapter}{List of Abbreviations}
+
+% ============================================================
+%  STRUCTURE OF REPORT
+% ============================================================
+\cleardoublepage
+\chapter*{Structure of Report}
+\addcontentsline{toc}{chapter}{Structure of Report}
+\label{ch:structure}
+
+
+The report is organised as follows:
+
+Chapter~\ref{ch:introduction}
+introduces the motivation for studying ethics in AI, explains why fairness is an
+important concern, and outlines the main ideas addressed in the report.
+
+Chapter~\ref{ch:background} presents the background material needed for the rest of
+the discussion. It covers the mathematical and machine learning concepts used in the
+report, along with the fairness metrics that are later used for evaluation.
+
+Chapter~\ref{ch:readme} discusses the ReadME paper in detail, focusing on its
+architecture, main ideas, and results. This chapter helps establish the basis for the
+methods studied in the rest of the report.
+
+Chapter~\ref{ch:cvar_deepfake} presents the DAG-FDD and DAW-FDD approaches and explains
+their architecture and performance. These methods are examined as important fairness-aware
+baselines for the problem under study.
+
+Chapter~\ref{ch:proposed} describes our proposed architecture to tackle a very specific yet important gap. It explains the
+design choices, the overall pipeline, and the role of each component in improving fairness
+while preserving predictive performance.
+
+Finally, Chapter~\ref{ch:conclusion} concludes the report by summarising the main
+findings and discussing possible directions for future work. It also reviews how major AI companies are approaching
+fairness and safety in practice. This chapter gives a broader view of the methods and
+policies currently being used in real-world systems.
+
+% ============================================================
+%  MAIN MATTER — switch to Arabic page numbers
+% ============================================================
+\cleardoublepage
+\pagenumbering{arabic}
+\include{chapters/chapter1} %introduction
+\include{chapters/chapter2} %background and evaluation metrics
+\include{chapters/chapter3} %readME
+\include{chapters/chapter4} %cvar_deepfake
+\include{chapters/chapter5} %proposed architecture
+\include{chapters/chapter6} %conclusion and future work
+% ============================================================
+%  BIBLIOGRAPHY
+% ============================================================
+\cleardoublepage
+\addcontentsline{toc}{chapter}{Bibliography}
+\bibliographystyle{unsrt}       % numeric, unsorted — matches the original
+\bibliography{references}       % references.bib file
+
+\end{document}
