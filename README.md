@@ -83,6 +83,8 @@ A task-specific pipeline is designed for **deepfake detection**, integrating:
 * Latent consistency regularization
 * CVaR-based fairness loss
 
+![Proposed Pipeline](utils/FairFrFT.png)
+
 This pipeline aims to balance **robust detection performance** with **demographic fairness**.
 
 ---
